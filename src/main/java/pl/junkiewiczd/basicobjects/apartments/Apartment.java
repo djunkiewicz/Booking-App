@@ -1,4 +1,4 @@
-package pl.junkiewiczd.basicobjects;
+package pl.junkiewiczd.basicobjects.apartments;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import pl.junkiewiczd.basicobjects.Apartment;
+import pl.junkiewiczd.basicobjects.apartments.Apartment;
 import pl.junkiewiczd.basicobjects.Person;
 import pl.junkiewiczd.basicobjects.reservations.Reservation;
 import pl.junkiewiczd.basicobjects.reservations.ReservationByTenantName;

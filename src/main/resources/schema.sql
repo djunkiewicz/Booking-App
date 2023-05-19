@@ -57,4 +57,18 @@ CREATE TABLE reservation (
 );
 INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id)
 VALUES ('2023-03-04', '2023-03-07', 2, 3);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id)
+VALUES ('2023-03-09', '2023-03-12', 4, 3);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id)
+VALUES ('2023-04-05', '2023-04-20', 2, 1);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id)
+VALUES ('2023-04-05', '2023-04-20', 2, 1);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id)
+VALUES ('2023-04-05', '2023-04-20', 2, 5);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id)
+VALUES ('2023-04-05', '2023-04-20', 2, 7);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id)
+VALUES ('2023-04-05', '2023-04-20', 3, 8);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id)
+VALUES ('2023-03-05', '2023-03-20', 3, 8);
 

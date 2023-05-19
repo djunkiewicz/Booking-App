@@ -1,10 +1,8 @@
 package pl.junkiewiczd;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import pl.junkiewiczd.basicobjects.Apartment;
+import pl.junkiewiczd.basicobjects.apartments.Apartment;
 import pl.junkiewiczd.basicobjects.Person;
 import pl.junkiewiczd.basicobjects.reservations.Reservation;
 import pl.junkiewiczd.basicobjects.reservations.ReservationByTenantName;
