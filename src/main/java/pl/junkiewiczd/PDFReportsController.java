@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import pl.junkiewiczd.reports.PDFReportsService;
 import pl.junkiewiczd.reports.PeriodOfTime;
-import pl.junkiewiczd.tables.HostRepository;
 
 import java.io.IOException;
 import java.text.DateFormat;

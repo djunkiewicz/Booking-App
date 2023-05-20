@@ -26,6 +26,11 @@ public class ApartmentRepository {
                 BeanPropertyRowMapper.newInstance(Apartment.class));
     }
 
+    public Integer getApartmentPrice(int id) {
+        return jdbcTemplate.queryForObject("SELECT price FROM apartment WHERE id=?",
+                Integer.class, id);
+    }
+
     public List<ApartmentReportDetails> getReportDetails(PeriodOfTime periodOfTime) {
 
         Map<String, LocalDate> parametersMap = new HashMap<>();

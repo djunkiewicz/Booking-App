@@ -143,6 +143,58 @@ class BookingSystemControllerTest {
 
     @Test
     @DirtiesContext
+    void shouldNotAddOverlappingReservationsForSameApartment() {
+        //given
+        List<Reservation> reservationList = bookingSystemController.getAllReservations();
+        int sizeBeforeAddingNewReservations = reservationList.size();
+        Reservation baseReservation = new Reservation(LocalDate.of(2023, 3,10), LocalDate.of(2023, 3,15),
+                3,2, 500);
+        Reservation correctReservation = new Reservation(LocalDate.of(2023, 3,16), LocalDate.of(2023, 3,20),
+                3,2, 500);
+        Reservation incorrectReservation1 = new Reservation(LocalDate.of(2023, 3,10), LocalDate.of(2023, 3,15),
+                3,2, 500);
+        Reservation incorrectReservation2 = new Reservation(LocalDate.of(2023, 3,2), LocalDate.of(2023, 3,12),
+                3,2, 500);
+        Reservation incorrectReservation3 = new Reservation(LocalDate.of(2023, 3,13), LocalDate.of(2023, 3,18),
+                3,2, 500);
+
+        //when
+        bookingSystemController.saveNewReservation(baseReservation);
+        bookingSystemController.saveNewReservation(correctReservation);
+        bookingSystemController.saveNewReservation(incorrectReservation1);
+        bookingSystemController.saveNewReservation(incorrectReservation2);
+        bookingSystemController.saveNewReservation(incorrectReservation3);
+        reservationList = bookingSystemController.getAllReservations();
+        int sizeAfterAddingNewReservations = reservationList.size();
+
+        //then
+        assertThat(sizeBeforeAddingNewReservations,is(lessThan(sizeAfterAddingNewReservations)));
+        assertThat(sizeAfterAddingNewReservations,is(equalTo(sizeBeforeAddingNewReservations+2)));
+    }
+
+    @Test
+    @DirtiesContext
+    void shouldAutomaticallyCalculateAndUpdateCostOfReservationIfNotGiven() {
+        //given
+        Reservation newReservation1 = new Reservation(LocalDate.of(2023, 3,10), LocalDate.of(2023, 3,15),
+                3,2, null);
+        Reservation newReservation2 = new Reservation(LocalDate.of(2023, 3,16), LocalDate.of(2023, 3,18),
+                3,2, 456);
+        //when
+        bookingSystemController.saveNewReservation(newReservation1);
+        bookingSystemController.saveNewReservation(newReservation2);
+        List<Reservation> reservationList = bookingSystemController.getAllReservations();
+        Reservation previousLastAddedReservation = reservationList.get(8);
+        Reservation lastAddedReservation = reservationList.get(9);
+
+        //then
+        assertThat(previousLastAddedReservation.getCost(),is(equalTo(360)));
+        assertThat(lastAddedReservation.getCost(),is(equalTo(456)));
+    }
+
+
+    @Test
+    @DirtiesContext
     void fullyUpdateReservation() {
         //given
         Reservation newReservation = new Reservation(LocalDate.of(2023, 12,12), LocalDate.of(2023, 12,16),
@@ -173,4 +225,5 @@ class BookingSystemControllerTest {
         assertThat(apartmentIdAfterEdit, is(equalTo(3)));
         assertThat(apartmentIdBeforeEdit, is(equalTo(5)));
     }
+
 }

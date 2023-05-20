@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.context.TestPropertySource;
+import pl.junkiewiczd.reports.PDFReportsService;
 import pl.junkiewiczd.tables.ApartmentRepository;
 import pl.junkiewiczd.tables.HostRepository;
 import pl.junkiewiczd.tables.ReservationRepository;

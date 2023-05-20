@@ -44,12 +44,12 @@ CREATE TABLE reservation (
   apartment_id INTEGER NOT NULL,
   cost INTEGER
 );
-INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id) VALUES ('2023-04-15', '2023-04-20', 1, 5);
-INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id) VALUES ('2023-05-18', '2023-05-25', 3, 5);
-INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id) VALUES ('2023-06-10', '2023-06-14', 2, 8);
-INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id) VALUES ('2023-07-05', '2023-07-12', 4, 2);
-INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id) VALUES ('2023-08-01', '2023-08-15', 3, 6);
-INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id) VALUES ('2023-10-02', '2023-10-06', 4, 3);
-INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id) VALUES ('2023-10-01', '2023-10-05', 1, 6);
-INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id) VALUES ('2023-11-10', '2023-11-20', 2, 6);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost) VALUES ('2023-04-15', '2023-04-20', 1, 5, 840);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost) VALUES ('2023-05-18', '2023-05-25', 3, 5, 980);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost) VALUES ('2023-06-10', '2023-06-14', 2, 8, 425);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost) VALUES ('2023-07-05', '2023-07-12', 4, 2, 480);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost) VALUES ('2023-08-01', '2023-08-15', 3, 6, 3000);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost) VALUES ('2023-10-02', '2023-10-06', 4, 3, 1150);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost) VALUES ('2023-10-01', '2023-10-05', 1, 6, 1000);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost) VALUES ('2023-11-10', '2023-11-20', 2, 6, 2200);
 
