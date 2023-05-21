@@ -63,4 +63,8 @@ INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id
 VALUES ('2023-04-05', '2023-04-20', 2, 1, 1920);
 INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost)
 VALUES ('2023-04-05', '2023-04-19', 3, 2, 1020);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost)
+VALUES ('2023-04-05', '2023-04-17', 3, 6, 450);
+INSERT INTO reservation (start_of_rental, end_of_rental, tenant_id, apartment_id, cost)
+VALUES ('2023-04-05', '2023-04-12', 3, 7, 230);
 

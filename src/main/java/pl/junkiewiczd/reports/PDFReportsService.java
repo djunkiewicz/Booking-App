@@ -39,12 +39,13 @@ public class PDFReportsService {
                 " from " + periodOfTime.getBeginning() + " to " + periodOfTime.getEnd() + ":");
         paragraph1.setAlignment(Paragraph.ALIGN_LEFT);
 
-        float[] columnWidths = {1, 6, 2, 2};
-        Table reportTable = new Table(4);
+        float[] columnWidths = {1, 7, 3, 3, 3};
+        Table reportTable = new Table(5);
         reportTable.setWidths(columnWidths);
         reportTable.setPadding(5);
+        reportTable.setWidth(100);
 
-        String[] headerCellNames = {"RN", "Apartment name", "Amount of reservations", "Days of reservations"};
+        String[] headerCellNames = {"RN", "Apartment name", "Amount of reservations", "Days of reservations", "Total income\n[£]"};
         for (String cellName : headerCellNames) {
             Cell cell = new Cell(cellName);
             cell.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -64,6 +65,7 @@ public class PDFReportsService {
                     reportTable.addCell(new Cell(singleRow.getName()));
                     reportTable.addCell(createCellWithAlignment(String.valueOf(singleRow.getAmountOfReservation()), v, h));
                     reportTable.addCell(createCellWithAlignment(String.valueOf(singleRow.getDaysOfReservation()), v, h));
+                    reportTable.addCell(createCellWithAlignment(String.valueOf(singleRow.getTotalIncome()), v, h));
                     i.getAndIncrement();
                 });
 

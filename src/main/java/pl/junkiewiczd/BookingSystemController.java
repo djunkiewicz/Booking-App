@@ -82,11 +82,12 @@ public class BookingSystemController {
     }
 
     private boolean isAnyConflictingReservation(int id, Reservation reservation) {
+        int apartmentID = reservationRepository.getById(id).getApartmentId();
         LocalDate startOfRental = reservation.getStartOfRental();
         LocalDate endOfRental = reservation.getEndOfRental();
 
         List<Reservation> conflictingReservations = reservationRepository
-                .reservationsByApartmentIdAndTimeOfRental(id, startOfRental, endOfRental);
+                .reservationsByApartmentIdAndTimeOfRental(apartmentID, startOfRental, endOfRental);
 
         return !conflictingReservations.isEmpty();
     }
@@ -141,5 +142,4 @@ public class BookingSystemController {
             return -1;
         }
     }
-
 }

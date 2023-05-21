@@ -10,6 +10,7 @@ import pl.junkiewiczd.basicobjects.apartments.Apartment;
 import pl.junkiewiczd.basicobjects.Person;
 import pl.junkiewiczd.basicobjects.reservations.Reservation;
 import pl.junkiewiczd.basicobjects.reservations.ReservationByTenantName;
+import pl.junkiewiczd.tables.ReservationRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,6 +25,9 @@ class BookingSystemControllerTest {
 
     @Autowired
     private BookingSystemController bookingSystemController;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     @Test
     void getAllTenants() {
@@ -174,6 +178,52 @@ class BookingSystemControllerTest {
 
     @Test
     @DirtiesContext
+    void shouldNotPartiallyUpdateToCauseDateConflictForSameApartment() {
+        //given
+        Reservation reservation = reservationRepository.getById(2);
+        LocalDate startOfRentalBeforeUpdateMethods = reservation.getStartOfRental();
+        LocalDate endOfRentalBeforeUpdateMethods = reservation.getEndOfRental();
+        Reservation reservationChanges1 = new Reservation(LocalDate.of(2023, 4,12), LocalDate.of(2023, 4,18),
+                null,null, null);
+        Reservation reservationChanges2 = new Reservation(LocalDate.of(2023, 4,17), LocalDate.of(2023, 4,22),
+                null,null, null);
+
+        //when
+        bookingSystemController.partiallyUpdateReservation(2,reservationChanges1);
+        bookingSystemController.partiallyUpdateReservation(2,reservationChanges2);
+        reservation = reservationRepository.getById(2);
+        LocalDate startOfRentalAfterUpdateMethod = reservation.getStartOfRental();
+        LocalDate endOfRentalAfterUpdateMethod = reservation.getEndOfRental();
+
+        //then
+        assertThat(startOfRentalBeforeUpdateMethods,is(equalTo(startOfRentalAfterUpdateMethod)));
+        assertThat(endOfRentalBeforeUpdateMethods,is(equalTo(endOfRentalAfterUpdateMethod)));
+    }
+
+    @Test
+    @DirtiesContext
+    void shouldNotFullyUpdateToCauseDateConflictForSameApartment() {
+        //given
+        Reservation reservationBeforeFullyUpdateMethod = reservationRepository.getById(2);
+        Reservation conflictReservation1 = new Reservation(LocalDate.of(2023, 4,15), LocalDate.of(2023, 4,20),
+                3,5, 600);
+        Reservation conflictReservation2 = new Reservation(LocalDate.of(2023, 4,17), LocalDate.of(2023, 4,22),
+                4,5, 720);
+        Reservation conflictReservation3 = new Reservation(LocalDate.of(2023, 4,12), LocalDate.of(2023, 4,18),
+                1,5, 800);
+
+        //when
+        bookingSystemController.fullyUpdateReservation(2,conflictReservation1);
+        bookingSystemController.fullyUpdateReservation(2,conflictReservation2);
+        bookingSystemController.fullyUpdateReservation(2,conflictReservation3);
+        Reservation reservationAfterFullyUpdateMethods = reservationRepository.getById(2);
+
+        //then
+        assertThat(reservationBeforeFullyUpdateMethod,is(equalTo(reservationAfterFullyUpdateMethods)));
+    }
+
+    @Test
+    @DirtiesContext
     void shouldAutomaticallyCalculateAndUpdateCostOfReservationIfNotGiven() {
         //given
         Reservation newReservation1 = new Reservation(LocalDate.of(2023, 3,10), LocalDate.of(2023, 3,15),
@@ -183,9 +233,8 @@ class BookingSystemControllerTest {
         //when
         bookingSystemController.saveNewReservation(newReservation1);
         bookingSystemController.saveNewReservation(newReservation2);
-        List<Reservation> reservationList = bookingSystemController.getAllReservations();
-        Reservation previousLastAddedReservation = reservationList.get(8);
-        Reservation lastAddedReservation = reservationList.get(9);
+        Reservation previousLastAddedReservation = reservationRepository.getById(9);
+        Reservation lastAddedReservation = reservationRepository.getById(10);
 
         //then
         assertThat(previousLastAddedReservation.getCost(),is(equalTo(360)));

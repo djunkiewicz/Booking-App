@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ApartmentReportDetails {
     private String name;
-    private Integer DaysOfReservation;
-    private Integer AmountOfReservation;
+    private Integer daysOfReservation;
+    private Integer amountOfReservation;
+    private Integer totalIncome;
 }

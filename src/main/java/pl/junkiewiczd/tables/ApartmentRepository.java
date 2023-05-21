@@ -42,12 +42,13 @@ public class ApartmentRepository {
         return namedTemplate.query(
                 "SELECT " +
                         "apartment.name, " +
-                        "COUNT(reservation.id) AS AmountOfReservation, " +
+                        "COUNT(reservation.id) AS amountOfReservation, " +
                         "SUM(CASE WHEN start_of_rental < CAST(:beginning AS DATE) AND end_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE) THEN " +
                         "DATEDIFF(end_of_rental, CAST(:beginning AS DATE))+1 " +
                         "WHEN end_of_rental > CAST(:end AS DATE) AND start_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE) THEN " +
                         "DATEDIFF(CAST(:end AS DATE), start_of_rental)+1 " +
-                        "ELSE DATEDIFF(end_of_rental, start_of_rental)+1 END) AS DaysOfReservation " +
+                        "ELSE DATEDIFF(end_of_rental, start_of_rental)+1 END) AS daysOfReservation, " +
+                        "SUM(reservation.cost) AS totalIncome " +
                     "FROM " +
                         "apartment " +
                     "JOIN " +
