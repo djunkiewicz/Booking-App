@@ -41,23 +41,29 @@ public class ApartmentRepository {
 
         return namedTemplate.query(
                 "SELECT " +
-                        "apartment.name, " +
-                        "COUNT(reservation.id) AS amountOfReservation, " +
-                        "SUM(CASE WHEN start_of_rental < CAST(:beginning AS DATE) AND end_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE) THEN " +
-                        "DATEDIFF(end_of_rental, CAST(:beginning AS DATE))+1 " +
-                        "WHEN end_of_rental > CAST(:end AS DATE) AND start_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE) THEN " +
-                        "DATEDIFF(CAST(:end AS DATE), start_of_rental)+1 " +
-                        "ELSE DATEDIFF(end_of_rental, start_of_rental)+1 END) AS daysOfReservation, " +
-                        "SUM(reservation.cost) AS totalIncome " +
+                        "name, " +
+                        "amountOfReservation, " +
+                        "daysOfReservation, " +
+                        "daysOfReservation * price AS totalIncome " +
                     "FROM " +
-                        "apartment " +
-                    "JOIN " +
-                        "reservation ON apartment.id = reservation.apartment_id " +
-                    "WHERE " +
-                        "(start_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE)) OR " +
-                        "(end_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE)) " +
-                    "GROUP BY " +
-                        "apartment.id",
+                        "(SELECT " +
+                            "price, " +
+                            "name, " +
+                            "COUNT(reservation.id) AS amountOfReservation, " +
+                            "SUM(CASE WHEN start_of_rental < CAST(:beginning AS DATE) AND end_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE) THEN " +
+                            "DATEDIFF(end_of_rental, CAST(:beginning AS DATE))+1 " +
+                            "WHEN end_of_rental > CAST(:end AS DATE) AND start_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE) THEN " +
+                            "DATEDIFF(CAST(:end AS DATE), start_of_rental)+1 " +
+                            "ELSE DATEDIFF(end_of_rental, start_of_rental)+1 END) AS daysOfReservation " +
+                        "FROM " +
+                            "apartment " +
+                        "JOIN " +
+                            "reservation ON apartment.id = reservation.apartment_id " +
+                        "WHERE " +
+                            "(start_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE)) OR " +
+                            "(end_of_rental BETWEEN CAST(:beginning AS DATE) AND CAST(:end AS DATE)) " +
+                        "GROUP BY " +
+                            "apartment.id) subquery",
                 parametersMap,
                 BeanPropertyRowMapper.newInstance(ApartmentReportDetails.class));
     }
