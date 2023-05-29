@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import pl.junkiewiczd.basicobjects.apartments.Apartment;
 import pl.junkiewiczd.basicobjects.Person;
 import pl.junkiewiczd.basicobjects.reservations.Reservation;
@@ -273,6 +274,74 @@ class BookingSystemControllerTest {
         assertThat(apartmentIdBeforeEdit, is(not(equalTo(apartmentIdAfterEdit))));
         assertThat(apartmentIdAfterEdit, is(equalTo(3)));
         assertThat(apartmentIdBeforeEdit, is(equalTo(5)));
+    }
+
+    @Test
+    @DirtiesContext
+    void deleteReservation() {
+        //given
+        List<Reservation> reservationList = bookingSystemController.getAllReservations();
+        int sizeBeforeDeleteExistingReservation = reservationList.size();
+
+        //when
+        bookingSystemController.deleteReservation(2);
+        reservationList = bookingSystemController.getAllReservations();
+        int sizeAfterDeletingExistingReservation = reservationList.size();
+
+        //then
+        assertThat(sizeBeforeDeleteExistingReservation, is(greaterThan(sizeAfterDeletingExistingReservation)));
+        assertThat(reservationRepository.existsById(2), is(false));
+    }
+
+    @Test
+    @DirtiesContext
+    void youCannotDeleteReservationThatDoesNotExist() {
+        //given
+        List<Reservation> reservationList = bookingSystemController.getAllReservations();
+        int sizeBeforeDeleteExistingReservation = reservationList.size();
+
+        //when
+        int result = bookingSystemController.deleteReservation(30);
+        reservationList = bookingSystemController.getAllReservations();
+        int sizeAfterDeletingExistingReservation = reservationList.size();
+
+        //then
+        assertThat(sizeBeforeDeleteExistingReservation, is(equalTo(sizeAfterDeletingExistingReservation)));
+        assertThat(result, is(equalTo(-1)));
+    }
+
+    @Test
+    @DirtiesContext
+    void youCannotPartiallyUpdateReservationThatDoesNotExist() {
+        //given
+        Reservation newReservation = new Reservation(LocalDate.of(2023, 12,12), LocalDate.of(2023, 12,16),
+                3,2, 500);
+        Reservation reservationBeforePartiallyUpdate = bookingSystemController.getAllReservations().get(0);
+
+        //when
+        int result = bookingSystemController.partiallyUpdateReservation(30, newReservation);
+        Reservation reservationAfterPartiallyUpdate = bookingSystemController.getAllReservations().get(0);
+
+        //then
+        assertThat(reservationBeforePartiallyUpdate, is(equalTo(reservationAfterPartiallyUpdate)));
+        assertThat(result, is(equalTo(-1)));
+    }
+
+    @Test
+    @DirtiesContext
+    void youCannotFullyUpdateReservationThatDoesNotExist() {
+        //given
+        Reservation newReservation = new Reservation(LocalDate.of(2023, 12,12), LocalDate.of(2023, 12,16),
+                3,2, 500);
+        Reservation reservationBeforeFullyUpdate = bookingSystemController.getAllReservations().get(0);
+
+        //when
+        int result = bookingSystemController.fullyUpdateReservation(30, newReservation);
+        Reservation reservationAfterFullyUpdate = bookingSystemController.getAllReservations().get(0);
+
+        //then
+        assertThat(reservationBeforeFullyUpdate, is(equalTo(reservationAfterFullyUpdate)));
+        assertThat(result, is(equalTo(-1)));
     }
 
 }
