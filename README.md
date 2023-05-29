@@ -35,6 +35,6 @@ The "Postman" software was used to test the application. Below are screenshots s
 
 All functionalities made in the REST API architecture are:
 
-![allFunctionalities](https://github.com/djunkiewicz/git-kurs/assets/121723243/067e9042-3fbd-4afb-8f07-fb11f504e172)
+![allFunctionalities](https://github.com/djunkiewicz/git-kurs/assets/121723243/a1b7c142-1565-45f4-9be1-099e2f180b54)
 
 The above-mentioned functionalities are covered by unit tests in accordance with good programming practices. Libraries used in the test environment: JUnit5, Hamcrest.
