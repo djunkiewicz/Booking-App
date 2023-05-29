@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import pl.junkiewiczd.basicobjects.apartments.Apartment;
 import pl.junkiewiczd.basicobjects.Person;
 import pl.junkiewiczd.basicobjects.reservations.Reservation;

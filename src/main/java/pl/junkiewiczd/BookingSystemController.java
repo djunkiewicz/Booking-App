@@ -18,10 +18,10 @@ import java.util.List;
 @RestController
 public class BookingSystemController {
 
-    private HostRepository hostRepository;
-    private TenantRepository tenantRepository;
-    private ApartmentRepository apartmentRepository;
-    private ReservationRepository reservationRepository;
+    private final HostRepository hostRepository;
+    private final TenantRepository tenantRepository;
+    private final ApartmentRepository apartmentRepository;
+    private final ReservationRepository reservationRepository;
 
     @Autowired
     public BookingSystemController(HostRepository hostRepository, TenantRepository tenantRepository, ApartmentRepository apartmentRepository, ReservationRepository reservationRepository) {
@@ -93,12 +93,10 @@ public class BookingSystemController {
     }
 
     private boolean areParametersNonEmpty(Reservation reservation) {
-        if (reservation.getStartOfRental() == null ||
-                reservation.getEndOfRental() == null ||
-                reservation.getTenantId() == null ||
-                reservation.getApartmentId() == null
-        ) return false;
-        else return true;
+        return reservation.getStartOfRental() != null &&
+                reservation.getEndOfRental() != null &&
+                reservation.getTenantId() != null &&
+                reservation.getApartmentId() != null;
     }
 
     private Reservation calculateAndUpdateCostIfEmpty (Reservation reservation) {
