@@ -142,4 +142,12 @@ public class BookingSystemController {
             return -1;
         }
     }
+
+    @DeleteMapping("reservations/{id}")
+    public int deleteReservation(@PathVariable("id") int id) {
+        if (reservationRepository.existsById(id)) {
+            return reservationRepository.delete(id);
+        }
+        else return -1;
+    }
 }

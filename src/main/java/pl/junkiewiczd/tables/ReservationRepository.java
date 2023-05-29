@@ -26,6 +26,12 @@ public class ReservationRepository {
                 BeanPropertyRowMapper.newInstance(Reservation.class), id);
     }
 
+    public boolean existsById(int id) {
+        String sql = "SELECT COUNT(*) FROM reservation WHERE id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+        return count != null && count > 0;
+    }
+
     public List<ReservationByTenantName> getByTenantName(String name) {
         return jdbcTemplate.query("SELECT reservation.id, start_of_rental, end_of_rental, " +
                 "tenant_id, apartment_id, cost, tenant.name AS tenant_name " +
@@ -51,6 +57,10 @@ public class ReservationRepository {
                 "tenant_id=?, apartment_id=?, cost=? WHERE id=?", reservationToUpdate.getStartOfRental(),
                 reservationToUpdate.getEndOfRental(), reservationToUpdate.getTenantId(),
                 reservationToUpdate.getApartmentId(), reservationToUpdate.getCost(), reservationToUpdate.getId());
+    }
+
+    public int delete(int reservationId) {
+        return jdbcTemplate.update("DELETE FROM reservation WHERE id = ?", reservationId);
     }
 
     public List<Reservation> reservationsByApartmentIdAndTimeOfRental(int apartmentID, LocalDate startOfRental, LocalDate endOfRental) {
