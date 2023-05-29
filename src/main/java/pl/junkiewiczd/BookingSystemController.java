@@ -114,8 +114,8 @@ public class BookingSystemController {
 
     @PutMapping("reservations/{id}")
     public int fullyUpdateReservation(@PathVariable("id") int id, @RequestBody Reservation updatedReservation) {
-        Reservation reservation = reservationRepository.getById(id);
-        if (!isAnyConflictingReservation(id, updatedReservation) && reservation != null) {
+        if (reservationRepository.existsById(id) && !isAnyConflictingReservation(id, updatedReservation)) {
+            Reservation reservation = reservationRepository.getById(id);
             reservation.setStartOfRental(updatedReservation.getStartOfRental());
             reservation.setEndOfRental(updatedReservation.getEndOfRental());
             reservation.setTenantId(updatedReservation.getTenantId());
@@ -127,8 +127,8 @@ public class BookingSystemController {
 
     @PatchMapping("reservations/{id}")
     public int partiallyUpdateReservation(@PathVariable("id") int id, @RequestBody Reservation updatedReservation) {
-        Reservation reservation = reservationRepository.getById(id);
-        if (!isAnyConflictingReservation(id, updatedReservation) && reservation != null) {
+        if (reservationRepository.existsById(id) && !isAnyConflictingReservation(id, updatedReservation)) {
+            Reservation reservation = reservationRepository.getById(id);
             if (updatedReservation.getStartOfRental() != null)
                 reservation.setStartOfRental(updatedReservation.getStartOfRental());
             if (updatedReservation.getEndOfRental() != null)
